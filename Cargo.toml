@@ -1,0 +1,6 @@
+[package]
+name = "attic"
+version = "0.1.0"
+authors = ["David Janke <david.janke@numberMumbler.com>"]
+
+[dependencies]
