@@ -10,11 +10,17 @@ pub struct Settings {
     pub access_token: String,
 }
 
-pub fn get_settings() -> Settings {
-    let mut file = File::open(CONFIG_FILE.to_string()).unwrap();
-    let mut data = String::new();
-    file.read_to_string(&mut data).unwrap();
+impl Settings {
+    pub fn new() -> Settings {
+        Settings::get_settings()
+    }
 
-    let settings: Settings = serde_json::from_str(&data).unwrap();
-    return settings;
+    fn get_settings() -> Settings {
+        let mut file = File::open(CONFIG_FILE.to_string()).unwrap();
+        let mut data = String::new();
+        file.read_to_string(&mut data).unwrap();
+
+        let settings: Settings = serde_json::from_str(&data).unwrap();
+        return settings;
+    }
 }
