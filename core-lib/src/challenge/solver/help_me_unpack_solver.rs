@@ -33,9 +33,8 @@ impl HelpMeUnpackSolver {
 
         // default float formatting does not include enough precision
         let float_re: Regex = Regex::new(r#""float":\d+\.\d+"#).unwrap();
-        let float_value: &str = &format!("\"float\":{:.14}", solution.float).to_owned();
-        let original: &str = &result.to_owned();
-        let updated = float_re.replace(original, float_value).to_string();
+        let float_value: &str = &format!("\"float\":{:.14}", solution.float);
+        let updated = float_re.replace(&result, float_value).to_string();
 
         return updated;
     }

@@ -14,7 +14,7 @@ impl<T: ChallengeGateway> ChallengeRunner<T> {
         }
     }
 
-    pub fn solve_challenge(&self, challenge_id: String) -> String {
+    pub fn solve_challenge(&self, challenge_id: &str) -> String {
         // TODO: expand this to Builder or something
         if challenge_id == HelpMeUnpackSolver::get_challenge_id() {
             let solver = HelpMeUnpackSolver::new();
@@ -27,15 +27,15 @@ impl<T: ChallengeGateway> ChallengeRunner<T> {
         }
     }
 
-    pub fn solve<U: SolvesChallenge>(&self, solver: U, challenge_id: String) -> String {
+    pub fn solve<U: SolvesChallenge>(&self, solver: U, challenge_id: &str) -> String {
         // TODO: use a logger
         if self.is_verbose { println!("Running {}...", challenge_id); }
-        let problem_payload = self.challenge_gateway.get_problem_payload(&challenge_id);
+        let problem_payload = self.challenge_gateway.get_problem_payload(challenge_id);
         if self.is_verbose { println!("problem: {}", problem_payload); }
         let solution_payload = solver.solve(problem_payload);
         if self.is_verbose { println!("solution: {}", solution_payload); }
 
-        let response = self.challenge_gateway.send_solution_payload(&challenge_id, solution_payload);
+        let response = self.challenge_gateway.send_solution_payload(challenge_id, &solution_payload);
         return response;
     }
 }

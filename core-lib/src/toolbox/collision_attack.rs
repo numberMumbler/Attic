@@ -82,7 +82,7 @@ mod tests {
         for i in 0..haystack.len() {
             if haystack[i] == needle[needle_index] {
                 needle_index += 1;
-            } else if haystack[i] == needle[0]{
+            } else if haystack[i] == needle[0] {
                 needle_index = 1;
             } else {
                 needle_index = 0;

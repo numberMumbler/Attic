@@ -7,7 +7,7 @@ pub struct CollisionCourse {}
 impl CollisionCourse {
     pub fn solve(problem: ProblemPayload) -> SolutionPayload {
         let (result_1, result_2) = collision_attack::generate_colliders(&problem.include.as_bytes());
-        return SolutionPayload::new(result_1, result_2);
+        return SolutionPayload::new(&result_1, &result_2);
     }
 }
 
@@ -22,7 +22,7 @@ pub struct SolutionPayload {
 }
 
 impl SolutionPayload {
-    pub fn new(content_1: Vec<u8>, content_2: Vec<u8>) -> SolutionPayload {
+    pub fn new(content_1: &Vec<u8>, content_2: &Vec<u8>) -> SolutionPayload {
         SolutionPayload {
             files: [base64::encode(&content_1), base64::encode(&content_2)],
         }

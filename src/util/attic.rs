@@ -15,13 +15,13 @@ pub struct Attic {
 }
 
 impl ChallengeGateway for Attic {
-    fn get_problem_payload(&self, challenge_id: &String) -> String {
+    fn get_problem_payload(&self, challenge_id: &str) -> String {
         let problem_uri = self.get_problem_uri(challenge_id);
         let result = Attic::https_get(problem_uri);
         return result;
     }
 
-    fn send_solution_payload(&self, challenge_id: &String, json: String) -> String {
+    fn send_solution_payload(&self, challenge_id: &str, json: &str) -> String {
         let solution_uri = self.get_solution_uri(challenge_id);
         let response = Attic::https_post(solution_uri, json);
         return response;
@@ -35,13 +35,13 @@ impl Attic {
         };
     }
 
-    fn get_problem_uri(&self, challenge_id: &String) -> Uri {
+    fn get_problem_uri(&self, challenge_id: &str) -> Uri {
         return format!("https://hackattic.com/challenges/{}/problem?access_token={}",
                        challenge_id,
                        self.access_token).parse().unwrap();
     }
 
-    fn get_solution_uri(&self, challenge_id: &String) -> Uri {
+    fn get_solution_uri(&self, challenge_id: &str) -> Uri {
         return format!("https://hackattic.com/challenges/{}/solve?access_token={}",
                        challenge_id,
                        self.access_token).parse().unwrap();
@@ -62,7 +62,7 @@ impl Attic {
         return String::from_utf8(payload.to_vec()).unwrap();
     }
 
-    fn https_post(solution_uri: Uri, json: String) -> String {
+    fn https_post(solution_uri: Uri, json: &str) -> String {
         let mut core = Core::new().unwrap();
         let handle = core.handle();
         let client = Client::configure()
@@ -72,7 +72,7 @@ impl Attic {
         let mut req = Request::new(Method::Post, solution_uri);
         req.headers_mut().set(ContentType::json());
         req.headers_mut().set(ContentLength(json.len() as u64));
-        req.set_body(json);
+        req.set_body(json.to_string());
 
         let post = client.request(req).and_then(|response| {
             response.body().concat2()
