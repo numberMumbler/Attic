@@ -1,4 +1,5 @@
 extern crate base64;
+extern crate crypto;
 extern crate serde_json;
 extern crate regex;
 

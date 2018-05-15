@@ -13,8 +13,7 @@ impl SolvesChallenge for HelpMeUnpackSolver {
     fn get_challenge_id() -> String { CHALLENGE_ID.to_string() }
 
     fn solve(&self, payload: String) -> String {
-        let problem = HelpMeUnpackSolver::build_solution(payload);
-
+        let problem = HelpMeUnpackSolver::build_problem(payload);
         let result = HelpMeUnpack::solve(problem);
         let response = HelpMeUnpackSolver::convert_solution(result);
         return response;
@@ -24,7 +23,7 @@ impl SolvesChallenge for HelpMeUnpackSolver {
 impl HelpMeUnpackSolver {
     pub fn new() -> HelpMeUnpackSolver { HelpMeUnpackSolver {} }
 
-    fn build_solution(json_data: String) -> ProblemPayload {
+    fn build_problem(json_data: String) -> ProblemPayload {
         let payload = serde_json::from_str(&json_data).unwrap();
         return payload;
     }

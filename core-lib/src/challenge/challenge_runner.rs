@@ -1,5 +1,5 @@
 use challenge::ChallengeGateway;
-use challenge::solver::{SolvesChallenge, HelpMeUnpackSolver};
+use challenge::solver::*;
 
 pub struct ChallengeRunner<T: ChallengeGateway> {
     pub challenge_gateway: T,
@@ -18,6 +18,9 @@ impl<T: ChallengeGateway> ChallengeRunner<T> {
         // TODO: expand this to Builder or something
         if challenge_id == HelpMeUnpackSolver::get_challenge_id() {
             let solver = HelpMeUnpackSolver::new();
+            return self.solve(solver, challenge_id);
+        } else if challenge_id == CollisionCourseSolver::get_challenge_id() {
+            let solver = CollisionCourseSolver::new();
             return self.solve(solver, challenge_id);
         } else {
             panic!(format!("Unknown challenge ID: {}", challenge_id));
