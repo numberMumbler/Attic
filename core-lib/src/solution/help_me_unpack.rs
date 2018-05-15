@@ -7,7 +7,7 @@ use toolbox::convert;
 pub struct HelpMeUnpack {}
 
 impl HelpMeUnpack {
-    pub fn solve(problem: ProblemPayload) -> SolutionPayload {
+    pub fn solve(problem: &ProblemPayload) -> SolutionPayload {
         let bytes = base64::decode(&problem.bytes).unwrap();
 
         // bytes at position 10, 11 are always zero
@@ -42,8 +42,6 @@ pub struct SolutionPayload {
 mod tests {
     use super::*;
 
-    // https://stackoverflow.com/questions/34662713/how-can-i-create-parameterized-tests-in-rust
-
     fn payload_assert_eq(expected: SolutionPayload, result: SolutionPayload) {
         assert_eq!(expected.int, result.int, "int");
         assert_eq!(expected.uint, result.uint, "uint");
@@ -67,7 +65,7 @@ mod tests {
             big_endian_double: 0.0,
         };
 
-        let result = HelpMeUnpack::solve(given);
+        let result = HelpMeUnpack::solve(&given);
         payload_assert_eq(expected, result);
     }
 
@@ -85,7 +83,7 @@ mod tests {
             big_endian_double: 74.2589496059755,
         };
 
-        let result = HelpMeUnpack::solve(given);
+        let result = HelpMeUnpack::solve(&given);
         payload_assert_eq(expected, result);
     }
 }

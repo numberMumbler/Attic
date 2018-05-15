@@ -5,7 +5,7 @@ use toolbox::collision_attack;
 pub struct CollisionCourse {}
 
 impl CollisionCourse {
-    pub fn solve(problem: ProblemPayload) -> SolutionPayload {
+    pub fn solve(problem: &ProblemPayload) -> SolutionPayload {
         let (result_1, result_2) = collision_attack::generate_colliders(&problem.include.as_bytes());
         return SolutionPayload::new(&result_1, &result_2);
     }
@@ -43,7 +43,7 @@ mod tests {
             "DjBlYVWap4fQC8b3C73+NATPA2WedE+FNMAP+2WcTIdAzJQv6y2hFaP0Fdy7hgdJc4ZlbX0fNKQgWdePWo3R72Y0ZTk3YzkzMDU5N2YxMWNjOWU1ZTIyNjQyZWMxNmU1".to_string()
         ];
 
-        let result = CollisionCourse::solve(given);
+        let result = CollisionCourse::solve(&given);
 
         assert_eq!(expected[0], result.files[0], "element 0 mismatch");
         assert_eq!(expected[1], result.files[1], "element 1 mismatch");

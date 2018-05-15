@@ -17,13 +17,13 @@ pub struct Attic {
 impl ChallengeGateway for Attic {
     fn get_problem_payload(&self, challenge_id: &str) -> String {
         let problem_uri = self.get_problem_uri(challenge_id);
-        let result = Attic::https_get(problem_uri);
+        let result = Attic::https_get(&problem_uri);
         return result;
     }
 
     fn send_solution_payload(&self, challenge_id: &str, json: &str) -> String {
         let solution_uri = self.get_solution_uri(challenge_id);
-        let response = Attic::https_post(solution_uri, json);
+        let response = Attic::https_post(&solution_uri, json);
         return response;
     }
 }
@@ -47,36 +47,38 @@ impl Attic {
                        self.access_token).parse().unwrap();
     }
 
-    fn https_get(uri: Uri) -> String {
+    fn https_get(uri: &Uri) -> String {
         let mut core = Core::new().unwrap();
         let handle = core.handle();
         let client = Client::configure()
             .connector(HttpsConnector::new(4, &handle).unwrap())
             .build(&handle);
 
-        let request = client.get(uri).and_then(|response| {
-            return response.body().concat2();
-        });
+        let request = client.get(uri.clone())
+            .and_then(|response| {
+                return response.body().concat2();
+            });
 
         let payload = core.run(request).unwrap();
         return String::from_utf8(payload.to_vec()).unwrap();
     }
 
-    fn https_post(solution_uri: Uri, json: &str) -> String {
+    fn https_post(solution_uri: &Uri, json: &str) -> String {
         let mut core = Core::new().unwrap();
         let handle = core.handle();
         let client = Client::configure()
             .connector(HttpsConnector::new(4, &handle).unwrap())
             .build(&handle);
 
-        let mut req = Request::new(Method::Post, solution_uri);
+        let mut req = Request::new(Method::Post, solution_uri.clone());
         req.headers_mut().set(ContentType::json());
         req.headers_mut().set(ContentLength(json.len() as u64));
         req.set_body(json.to_string());
 
-        let post = client.request(req).and_then(|response| {
-            response.body().concat2()
-        });
+        let post = client.request(req)
+            .and_then(|response| {
+                response.body().concat2()
+            });
 
         let response_body = core.run(post).unwrap();
         return String::from_utf8(response_body.to_vec()).unwrap();

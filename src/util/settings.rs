@@ -3,7 +3,7 @@ extern crate serde_json;
 use std::fs::File;
 use std::io::Read;
 
-static CONFIG_FILE: &'static str = "Settings.json";
+const CONFIG_FILE: &str = "Settings.json";
 
 #[derive(Deserialize)]
 pub struct Settings {
@@ -16,7 +16,7 @@ impl Settings {
     }
 
     fn get_settings() -> Settings {
-        let mut file = File::open(CONFIG_FILE.to_string()).unwrap();
+        let mut file = File::open(CONFIG_FILE).unwrap();
         let mut data = String::new();
         file.read_to_string(&mut data).unwrap();
 

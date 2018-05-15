@@ -12,10 +12,10 @@ pub struct HelpMeUnpackSolver {}
 impl SolvesChallenge for HelpMeUnpackSolver {
     fn get_challenge_id() -> String { CHALLENGE_ID.to_string() }
 
-    fn solve(&self, payload: String) -> String {
+    fn solve(&self, payload: &str) -> String {
         let problem = HelpMeUnpackSolver::build_problem(payload);
-        let result = HelpMeUnpack::solve(problem);
-        let response = HelpMeUnpackSolver::convert_solution(result);
+        let result = HelpMeUnpack::solve(&problem);
+        let response = HelpMeUnpackSolver::convert_solution(&result);
         return response;
     }
 }
@@ -23,12 +23,12 @@ impl SolvesChallenge for HelpMeUnpackSolver {
 impl HelpMeUnpackSolver {
     pub fn new() -> HelpMeUnpackSolver { HelpMeUnpackSolver {} }
 
-    fn build_problem(json_data: String) -> ProblemPayload {
+    fn build_problem(json_data: &str) -> ProblemPayload {
         let payload = serde_json::from_str(&json_data).unwrap();
         return payload;
     }
 
-    fn convert_solution(solution: SolutionPayload) -> String {
+    fn convert_solution(solution: &SolutionPayload) -> String {
         let result = serde_json::to_string(&solution).unwrap();
 
         // default float formatting does not include enough precision
