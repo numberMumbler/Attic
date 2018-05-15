@@ -6,7 +6,8 @@ pub struct CollisionCourse {}
 
 impl CollisionCourse {
     pub fn solve(problem: &ProblemPayload) -> SolutionPayload {
-        let (result_1, result_2) = collision_attack::generate_colliders(&problem.include.as_bytes());
+        let (result_1, result_2) =
+            collision_attack::generate_colliders(&problem.include.as_bytes());
         return SolutionPayload::new(&result_1, &result_2);
     }
 }
@@ -36,7 +37,7 @@ mod tests {
     #[test]
     fn solve_basic_test() {
         let given = ProblemPayload {
-            include: "f4e97c930597f11cc9e5e22642ec16e5".to_string()
+            include: "f4e97c930597f11cc9e5e22642ec16e5".to_string(),
         };
         let expected = [
             "DjBlYVWap4fQC8b3C73+NATPA2WecE+FNMAP+2WcTIdAzJQv6y2hFaP0FVy7hgdJc4ZlbX0fNKQgWdePWo3R72Y0ZTk3YzkzMDU5N2YxMWNjOWU1ZTIyNjQyZWMxNmU1".to_string(),

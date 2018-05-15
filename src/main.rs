@@ -1,8 +1,8 @@
+extern crate attic_core_lib;
 extern crate futures;
 extern crate hyper;
 extern crate hyper_tls;
 extern crate tokio_core;
-extern crate attic_core_lib;
 
 #[macro_use]
 extern crate serde_derive;
@@ -10,7 +10,7 @@ extern crate serde_derive;
 mod util;
 
 use attic_core_lib::ChallengeRunner;
-use util::{Settings, Attic};
+use util::{Attic, Settings};
 
 const DEBUG: bool = true;
 

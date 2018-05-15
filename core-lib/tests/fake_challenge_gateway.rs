@@ -29,6 +29,10 @@ impl ChallengeGateway for FakeChallengeGateway {
     }
 
     fn send_solution_payload(&self, _challenge_id: &str, json: &str) -> String {
-        if *json == self.expected_solution { CORRECT_RESPONSE.to_string() } else { INCORRECT_RESPONSE.to_string() }
+        if *json == self.expected_solution {
+            CORRECT_RESPONSE.to_string()
+        } else {
+            INCORRECT_RESPONSE.to_string()
+        }
     }
 }

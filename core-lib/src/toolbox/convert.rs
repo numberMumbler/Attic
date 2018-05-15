@@ -1,5 +1,7 @@
 pub fn bytes_to_int(bytes: &[u8; 4]) -> i32 {
-    let value: i32 = bytes.iter().enumerate()
+    let value: i32 = bytes
+        .iter()
+        .enumerate()
         .map(|(i, &v)| {
             let value = v as i32;
             value.checked_shl(8 * i as u32).unwrap()
@@ -9,7 +11,9 @@ pub fn bytes_to_int(bytes: &[u8; 4]) -> i32 {
 }
 
 pub fn bytes_to_uint(bytes: &[u8; 4]) -> u32 {
-    return bytes.iter().enumerate()
+    return bytes
+        .iter()
+        .enumerate()
         .map(|(i, &v)| {
             let value = v as u32;
             value.checked_shl(8 * i as u32).unwrap()
@@ -18,7 +22,9 @@ pub fn bytes_to_uint(bytes: &[u8; 4]) -> u32 {
 }
 
 pub fn bytes_to_double_uint(bytes: &[u8; 8]) -> u64 {
-    return bytes.iter().enumerate()
+    return bytes
+        .iter()
+        .enumerate()
         .map(|(i, &v)| {
             let value = v as u64;
             value.checked_shl(8 * i as u32).unwrap()

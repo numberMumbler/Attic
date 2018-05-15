@@ -30,21 +30,23 @@ impl ChallengeGateway for Attic {
 
 impl Attic {
     pub fn new(access_token: String) -> Attic {
-        return Attic {
-            access_token
-        };
+        return Attic { access_token };
     }
 
     fn get_problem_uri(&self, challenge_id: &str) -> Uri {
-        return format!("https://hackattic.com/challenges/{}/problem?access_token={}",
-                       challenge_id,
-                       self.access_token).parse().unwrap();
+        return format!(
+            "https://hackattic.com/challenges/{}/problem?access_token={}",
+            challenge_id, self.access_token
+        ).parse()
+            .unwrap();
     }
 
     fn get_solution_uri(&self, challenge_id: &str) -> Uri {
-        return format!("https://hackattic.com/challenges/{}/solve?access_token={}",
-                       challenge_id,
-                       self.access_token).parse().unwrap();
+        return format!(
+            "https://hackattic.com/challenges/{}/solve?access_token={}",
+            challenge_id, self.access_token
+        ).parse()
+            .unwrap();
     }
 
     fn https_get(uri: &Uri) -> String {
@@ -54,10 +56,9 @@ impl Attic {
             .connector(HttpsConnector::new(4, &handle).unwrap())
             .build(&handle);
 
-        let request = client.get(uri.clone())
-            .and_then(|response| {
-                return response.body().concat2();
-            });
+        let request = client
+            .get(uri.clone())
+            .and_then(|response| { return response.body().concat2();});
 
         let payload = core.run(request).unwrap();
         return String::from_utf8(payload.to_vec()).unwrap();
@@ -75,10 +76,9 @@ impl Attic {
         req.headers_mut().set(ContentLength(json.len() as u64));
         req.set_body(json.to_string());
 
-        let post = client.request(req)
-            .and_then(|response| {
-                response.body().concat2()
-            });
+        let post = client
+            .request(req)
+            .and_then(|response| response.body().concat2());
 
         let response_body = core.run(post).unwrap();
         return String::from_utf8(response_body.to_vec()).unwrap();

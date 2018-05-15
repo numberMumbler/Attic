@@ -13,7 +13,9 @@ macro_rules! run_tests {
           #[test]
           fn $name() {
             let (problem_payload, expected_solution) = $value;
-            let challenge_gateway = FakeChallengeGateway::new(problem_payload.to_string(), expected_solution.to_string());
+            let challenge_gateway = FakeChallengeGateway::new(
+                problem_payload.to_string(),
+                expected_solution.to_string());
             let expected_response = FakeChallengeGateway::get_expected_response();
 
             let runner = ChallengeRunner::new(challenge_gateway, false);

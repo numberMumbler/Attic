@@ -30,13 +30,20 @@ impl<T: ChallengeGateway> ChallengeRunner<T> {
 
     pub fn solve<U: SolvesChallenge>(&self, solver: &U, challenge_id: &str) -> String {
         // TODO: use a logger
-        if self.is_verbose { println!("Running {}...", challenge_id); }
+        if self.is_verbose {
+            println!("Running {}...", challenge_id);
+        }
         let problem_payload = self.challenge_gateway.get_problem_payload(challenge_id);
-        if self.is_verbose { println!("problem: {}", problem_payload); }
+        if self.is_verbose {
+            println!("problem: {}", problem_payload);
+        }
         let solution_payload = solver.solve(&problem_payload);
-        if self.is_verbose { println!("solution: {}", solution_payload); }
+        if self.is_verbose {
+            println!("solution: {}", solution_payload);
+        }
 
-        let response = self.challenge_gateway.send_solution_payload(challenge_id, &solution_payload);
+        let response = self.challenge_gateway
+            .send_solution_payload(challenge_id, &solution_payload);
         return response;
     }
 }

@@ -1,5 +1,5 @@
-extern crate serde_json;
 extern crate regex;
+extern crate serde_json;
 
 use regex::Regex;
 use challenge::solver::SolvesChallenge;
@@ -10,7 +10,9 @@ const CHALLENGE_ID: &str = "help_me_unpack";
 pub struct HelpMeUnpackSolver {}
 
 impl SolvesChallenge for HelpMeUnpackSolver {
-    fn get_challenge_id() -> String { CHALLENGE_ID.to_string() }
+    fn get_challenge_id() -> String {
+        CHALLENGE_ID.to_string()
+    }
 
     fn solve(&self, payload: &str) -> String {
         let problem = HelpMeUnpackSolver::build_problem(payload);
@@ -21,7 +23,9 @@ impl SolvesChallenge for HelpMeUnpackSolver {
 }
 
 impl HelpMeUnpackSolver {
-    pub fn new() -> HelpMeUnpackSolver { HelpMeUnpackSolver {} }
+    pub fn new() -> HelpMeUnpackSolver {
+        HelpMeUnpackSolver {}
+    }
 
     fn build_problem(json_data: &str) -> ProblemPayload {
         let payload = serde_json::from_str(&json_data).unwrap();

@@ -48,13 +48,16 @@ mod tests {
         assert_eq!(expected.short, result.short, "short");
         assert_eq!(expected.float, result.float, "float");
         assert_eq!(expected.double, result.double, "double");
-        assert_eq!(expected.big_endian_double, result.big_endian_double, "big_endian_double");
+        assert_eq!(
+            expected.big_endian_double, result.big_endian_double,
+            "big_endian_double"
+        );
     }
 
     #[test]
     fn process_payload_zero_string_returns_zeros() {
         let given = ProblemPayload {
-            bytes: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=".to_string()
+            bytes: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=".to_string(),
         };
         let expected = SolutionPayload {
             int: 0,
@@ -72,7 +75,7 @@ mod tests {
     #[test]
     fn process_payload_returns_expected() {
         let given = ProblemPayload {
-            bytes: "FqyCgL5+3tiGogAAfuiXQ4U+XqGSkFJAQFKQkqFePoU=".to_string()
+            bytes: "FqyCgL5+3tiGogAAfuiXQ4U+XqGSkFJAQFKQkqFePoU=".to_string(),
         };
         let expected = SolutionPayload {
             int: -2138919914,
