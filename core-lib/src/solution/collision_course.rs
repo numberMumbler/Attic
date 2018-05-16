@@ -1,11 +1,8 @@
 extern crate base64;
 
-use toolbox::collision_attack;
 use solution::DefinesSolution;
+use toolbox::collision_attack;
 extern crate serde;
-
-use serde::{Serialize, Deserialize};
-
 
 pub struct CollisionCourse {}
 
@@ -16,7 +13,7 @@ impl CollisionCourse {
 }
 
 impl<'a> DefinesSolution<'a, ProblemPayload, SolutionPayload> for CollisionCourse {
-   fn solve(&self, problem: &ProblemPayload) -> SolutionPayload {
+    fn solve(&self, problem: &ProblemPayload) -> SolutionPayload {
         let (result_1, result_2) =
             collision_attack::generate_colliders(&problem.include.as_bytes());
         return SolutionPayload::new(&result_1, &result_2);

@@ -3,12 +3,12 @@ extern crate hyper;
 extern crate hyper_tls;
 extern crate tokio_core;
 
+use attic_core_lib::ChallengeGateway;
 use futures::{Future, Stream};
-use hyper::{Client, Method, Request, Uri};
 use hyper::header::{ContentLength, ContentType};
+use hyper::{Client, Method, Request, Uri};
 use hyper_tls::HttpsConnector;
 use tokio_core::reactor::Core;
-use attic_core_lib::ChallengeGateway;
 
 pub struct Attic {
     access_token: String,
@@ -56,9 +56,9 @@ impl Attic {
             .connector(HttpsConnector::new(4, &handle).unwrap())
             .build(&handle);
 
-        let request = client
-            .get(uri.clone())
-            .and_then(|response| { return response.body().concat2();});
+        let request = client.get(uri.clone()).and_then(|response| {
+            return response.body().concat2();
+        });
 
         let payload = core.run(request).unwrap();
         return String::from_utf8(payload.to_vec()).unwrap();

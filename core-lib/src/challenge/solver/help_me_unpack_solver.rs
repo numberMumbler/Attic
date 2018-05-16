@@ -1,8 +1,8 @@
 extern crate regex;
 extern crate serde_json;
 
-use regex::Regex;
 use challenge::solver::SolvesChallenge;
+use regex::Regex;
 use solution::help_me_unpack::{HelpMeUnpack, ProblemPayload, SolutionPayload};
 
 const CHALLENGE_ID: &str = "help_me_unpack";

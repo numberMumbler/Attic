@@ -18,7 +18,7 @@ macro_rules! run_tests {
                 expected_solution.to_string());
             let expected_response = FakeChallengeGateway::get_expected_response();
 
-            let runner = ChallengeRunner::new(challenge_gateway, false);
+            let runner = ChallengeRunner::new(&challenge_gateway, false);
             let result = runner.solve_challenge(CHALLENGE_ID);
 
             assert_eq!(expected_response, result);

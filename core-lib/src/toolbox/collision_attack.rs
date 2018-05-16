@@ -17,9 +17,9 @@ pub fn generate_colliders(suffix: &[u8]) -> (Vec<u8>, Vec<u8>) {
 
 #[cfg(test)]
 mod tests {
-    use crypto::md5::Md5;
-    use crypto::digest::Digest;
     use super::*;
+    use crypto::digest::Digest;
+    use crypto::md5::Md5;
 
     macro_rules! collision_tests {
         ($($name:ident: $value:expr,)*) => {

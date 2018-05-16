@@ -18,7 +18,7 @@ fn main() {
     let settings = Settings::new();
     let challenge_gateway = Attic::new(settings.access_token);
 
-    let runner = ChallengeRunner::new(challenge_gateway, DEBUG);
+    let runner = ChallengeRunner::new(&challenge_gateway, DEBUG);
     let result = runner.solve_challenge("collision_course");
     println!("Response: {}", result);
 }
