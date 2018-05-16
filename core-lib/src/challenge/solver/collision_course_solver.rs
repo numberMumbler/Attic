@@ -9,7 +9,7 @@ const CHALLENGE_ID: &str = "collision_course";
 pub struct CollisionCourseSolver {}
 
 impl SolvesChallenge for CollisionCourseSolver {
-    fn get_challenge_id() -> String {
+    fn get_challenge_id(&self) -> String {
         CHALLENGE_ID.to_string()
     }
 

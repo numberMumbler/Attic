@@ -10,7 +10,7 @@ const CHALLENGE_ID: &str = "help_me_unpack";
 pub struct HelpMeUnpackSolver {}
 
 impl SolvesChallenge for HelpMeUnpackSolver {
-    fn get_challenge_id() -> String {
+    fn get_challenge_id(&self) -> String {
         CHALLENGE_ID.to_string()
     }
 

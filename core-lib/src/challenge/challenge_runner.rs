@@ -15,19 +15,19 @@ impl<'a, T: 'a + ChallengeGateway> ChallengeRunner<'a, T> {
     }
 
     pub fn solve_challenge(&self, challenge_id: &str) -> String {
-        // TODO: expand this to Builder or something
-        if challenge_id == HelpMeUnpackSolver::get_challenge_id() {
-            let solver = HelpMeUnpackSolver::new();
-            return self.solve(&solver, challenge_id);
-        } else if challenge_id == CollisionCourseSolver::get_challenge_id() {
-            let solver = CollisionCourseSolver::new();
-            return self.solve(&solver, challenge_id);
-        } else {
-            panic!(format!("Unknown challenge ID: {}", challenge_id));
+        let solvers = [
+            &HelpMeUnpackSolver::new() as &SolvesChallenge,
+            &CollisionCourseSolver::new() as &SolvesChallenge,
+        ];
+        for &solver in solvers.iter() {
+            if challenge_id == solver.get_challenge_id() {
+                return self.solve(solver, challenge_id);
+            }
         }
+        panic!(format!("Unknown challenge ID: {}", challenge_id));
     }
 
-    pub fn solve<U: SolvesChallenge>(&self, solver: &U, challenge_id: &str) -> String {
+    pub fn solve(&self, solver: &SolvesChallenge, challenge_id: &str) -> String {
         // TODO: use a logger
         if self.is_verbose {
             println!("Running {}...", challenge_id);
