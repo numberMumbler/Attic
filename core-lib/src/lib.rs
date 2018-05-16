@@ -1,6 +1,7 @@
 extern crate base64;
 extern crate crypto;
 extern crate regex;
+extern crate serde;
 extern crate serde_json;
 
 #[macro_use]

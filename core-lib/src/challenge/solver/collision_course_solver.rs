@@ -2,6 +2,7 @@ extern crate serde_json;
 
 use challenge::solver::SolvesChallenge;
 use solution::collision_course::{CollisionCourse, ProblemPayload, SolutionPayload};
+use solution::DefinesSolution;
 
 const CHALLENGE_ID: &str = "collision_course";
 
@@ -13,14 +14,19 @@ impl SolvesChallenge for CollisionCourseSolver {
     }
 
     fn solve(&self, payload: &str) -> String {
-        let problem = CollisionCourseSolver::build_problem(payload);
-        let result = CollisionCourse::solve(&problem);
-        let response = CollisionCourseSolver::convert_solution(&result);
-        return response;
+        self.go(&CollisionCourse::new(), payload)
     }
 }
 
 impl CollisionCourseSolver {
+    fn go(&self, solver: &DefinesSolution<ProblemPayload, SolutionPayload>, payload: &str) -> String {
+        let problem = CollisionCourseSolver::build_problem(payload);
+        let result = solver.solve(&problem);
+        let response = CollisionCourseSolver::convert_solution(&result);
+        return response;
+
+    }
+
     pub fn new() -> CollisionCourseSolver {
         CollisionCourseSolver {}
     }
