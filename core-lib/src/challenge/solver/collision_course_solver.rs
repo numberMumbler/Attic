@@ -4,43 +4,27 @@ use challenge::solver::SolvesChallenge;
 use solution::DefinesSolution;
 use solution::collision_course::{CollisionCourse, ProblemPayload, SolutionPayload};
 
-const CHALLENGE_ID: &str = "collision_course";
-
 pub struct CollisionCourseSolver {}
 
 impl SolvesChallenge for CollisionCourseSolver {
     fn get_challenge_id(&self) -> String {
-        CHALLENGE_ID.to_string()
+        CollisionCourse::get_challenge_id()
     }
 
     fn solve(&self, payload: &str) -> String {
-        self.go(&CollisionCourse::new(), payload)
+        CollisionCourseSolver::go(&CollisionCourse::new(), payload)
     }
 }
 
 impl CollisionCourseSolver {
-    fn go(
-        &self,
-        solver: &DefinesSolution<ProblemPayload, SolutionPayload>,
-        payload: &str,
-    ) -> String {
-        let problem = CollisionCourseSolver::build_problem(payload);
+    fn go(solver: &DefinesSolution<ProblemPayload, SolutionPayload>, payload: &str) -> String {
+        let problem: ProblemPayload = serde_json::from_str(payload).unwrap();
         let result = solver.solve(&problem);
-        let response = CollisionCourseSolver::convert_solution(&result);
+        let response = serde_json::to_string(&result).unwrap();
         return response;
     }
 
     pub fn new() -> CollisionCourseSolver {
         CollisionCourseSolver {}
-    }
-
-    fn build_problem(json_data: &str) -> ProblemPayload {
-        let payload = serde_json::from_str(&json_data).unwrap();
-        return payload;
-    }
-
-    fn convert_solution(solution: &SolutionPayload) -> String {
-        let result = serde_json::to_string(solution).unwrap();
-        return result;
     }
 }

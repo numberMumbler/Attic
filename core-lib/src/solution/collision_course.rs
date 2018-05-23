@@ -1,12 +1,20 @@
 extern crate base64;
+extern crate serde_json;
 
 use solution::DefinesSolution;
 use toolbox::collision_attack;
+
 extern crate serde;
+
+pub const CHALLENGE_ID: &str = "collision_course";
 
 pub struct CollisionCourse {}
 
 impl CollisionCourse {
+    pub fn get_challenge_id() -> String {
+        CHALLENGE_ID.to_string()
+    }
+
     pub fn new() -> CollisionCourse {
         CollisionCourse {}
     }
