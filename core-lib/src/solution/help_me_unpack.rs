@@ -38,7 +38,7 @@ impl<'a> DefinesSolution<'a, ProblemPayload, SolutionPayload> for HelpMeUnpack {
         return result;
     }
 
-    fn process_solution(&self, solution: &SolutionPayload) -> String {
+    fn convert_solution(&self, solution: &SolutionPayload) -> String {
         let result = serde_json::to_string(&solution).unwrap();
 
         // default float formatting does not include enough precision

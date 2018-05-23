@@ -26,7 +26,7 @@ impl HelpMeUnpackSolver {
     ) -> String {
         let problem: ProblemPayload = serde_json::from_str(payload).unwrap();
         let result = solver.solve(&problem);
-        let response = solver.process_solution(&result);
+        let response = solver.convert_solution(&result);
         return response;
     }
 
