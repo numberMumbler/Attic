@@ -2,12 +2,25 @@
 
 extern crate base64;
 
+use solution::DefinesSolution;
 use toolbox::convert;
+
+pub const CHALLENGE_ID: &str = "help_me_unpack";
 
 pub struct HelpMeUnpack {}
 
 impl HelpMeUnpack {
-    pub fn solve(problem: &ProblemPayload) -> SolutionPayload {
+    pub fn new() -> HelpMeUnpack {
+        HelpMeUnpack {}
+    }
+
+    pub fn get_challenge_id() -> String {
+        CHALLENGE_ID.to_string()
+    }
+}
+
+impl<'a> DefinesSolution<'a, ProblemPayload, SolutionPayload> for HelpMeUnpack {
+    fn solve(&self, problem: &ProblemPayload) -> SolutionPayload {
         let bytes = base64::decode(&problem.bytes).unwrap();
 
         // bytes at position 10, 11 are always zero
@@ -68,7 +81,8 @@ mod tests {
             big_endian_double: 0.0,
         };
 
-        let result = HelpMeUnpack::solve(&given);
+        let solver = HelpMeUnpack::new();
+        let result = solver.solve(&given);
         payload_assert_eq(expected, result);
     }
 
@@ -86,7 +100,8 @@ mod tests {
             big_endian_double: 74.2589496059755,
         };
 
-        let result = HelpMeUnpack::solve(&given);
+        let solver = HelpMeUnpack::new();
+        let result = solver.solve(&given);
         payload_assert_eq(expected, result);
     }
 }
