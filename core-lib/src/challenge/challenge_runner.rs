@@ -1,12 +1,12 @@
-use challenge::ChallengeGateway;
+use challenge::Gateway;
 use challenge::solver::*;
 
-pub struct ChallengeRunner<'a, T: 'a + ChallengeGateway> {
+pub struct ChallengeRunner<'a, T: 'a + Gateway> {
     pub challenge_gateway: &'a T,
     pub is_verbose: bool,
 }
 
-impl<'a, T: 'a + ChallengeGateway> ChallengeRunner<'a, T> {
+impl<'a, T: 'a + Gateway> ChallengeRunner<'a, T> {
     pub fn new(challenge_gateway: &'a T, is_verbose: bool) -> ChallengeRunner<'a, T> {
         ChallengeRunner {
             challenge_gateway,

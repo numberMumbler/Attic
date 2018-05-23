@@ -14,4 +14,4 @@ mod challenge;
 mod solution;
 mod toolbox;
 
-pub use challenge::{ChallengeGateway, ChallengeRunner};
+pub use challenge::{Gateway, ChallengeRunner};

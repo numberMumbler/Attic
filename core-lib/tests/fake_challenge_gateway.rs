@@ -1,6 +1,6 @@
 extern crate attic_core_lib;
 
-use attic_core_lib::ChallengeGateway;
+use attic_core_lib::Gateway;
 
 const CORRECT_RESPONSE: &str = r#"ok"#;
 const INCORRECT_RESPONSE: &str = r#"nope"#;
@@ -23,7 +23,7 @@ impl FakeChallengeGateway {
     }
 }
 
-impl ChallengeGateway for FakeChallengeGateway {
+impl Gateway for FakeChallengeGateway {
     fn get_problem_payload(&self, _challenge_id: &str) -> String {
         self.problem_payload.clone()
     }

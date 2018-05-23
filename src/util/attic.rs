@@ -3,7 +3,7 @@ extern crate hyper;
 extern crate hyper_tls;
 extern crate tokio_core;
 
-use attic_core_lib::ChallengeGateway;
+use attic_core_lib::Gateway;
 use futures::{Future, Stream};
 use hyper::header::{ContentLength, ContentType};
 use hyper::{Client, Method, Request, Uri};
@@ -14,7 +14,7 @@ pub struct Attic {
     access_token: String,
 }
 
-impl ChallengeGateway for Attic {
+impl Gateway for Attic {
     fn get_problem_payload(&self, challenge_id: &str) -> String {
         let problem_uri = self.get_problem_uri(challenge_id);
         let result = Attic::https_get(&problem_uri);
