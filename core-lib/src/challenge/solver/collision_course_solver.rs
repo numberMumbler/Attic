@@ -7,20 +7,24 @@ use solution::collision_course::{CollisionCourse, ProblemPayload, SolutionPayloa
 pub struct CollisionCourseSolver {}
 
 impl SolvesChallenge for CollisionCourseSolver {
-    fn get_challenge_id(&self) -> String {
-        CollisionCourse::get_challenge_id()
-    }
+    fn get_challenge_id(&self) -> String { CollisionCourse::get_challenge_id() }
 
     fn solve(&self, payload: &str) -> String {
-        CollisionCourseSolver::go(&CollisionCourse::new(), payload)
+        CollisionCourseSolver::go(
+            &CollisionCourse::new(),
+            payload,
+        )
     }
 }
 
 impl CollisionCourseSolver {
-    fn go(solver: &DefinesSolution<ProblemPayload, SolutionPayload>, payload: &str) -> String {
+    fn go(
+        solver: &DefinesSolution<ProblemPayload, SolutionPayload>,
+        payload: &str,
+    ) -> String {
         let problem: ProblemPayload = serde_json::from_str(payload).unwrap();
         let result = solver.solve(&problem);
-        let response = serde_json::to_string(&result).unwrap();
+        let response = solver.process_solution(&result);
         return response;
     }
 

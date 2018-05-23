@@ -1,9 +1,12 @@
 // https://hackattic.com/challenges/help_me_unpack
 
 extern crate base64;
+extern crate regex;
+extern crate serde_json;
 
 use solution::DefinesSolution;
 use toolbox::convert;
+use regex::Regex;
 
 pub const CHALLENGE_ID: &str = "help_me_unpack";
 
@@ -33,6 +36,17 @@ impl<'a> DefinesSolution<'a, ProblemPayload, SolutionPayload> for HelpMeUnpack {
             big_endian_double: convert::bytes_to_double_big_endian(array_ref!(bytes, 24, 8)),
         };
         return result;
+    }
+
+    fn process_solution(&self, solution: &SolutionPayload) -> String {
+        let result = serde_json::to_string(&solution).unwrap();
+
+        // default float formatting does not include enough precision
+        let float_re: Regex = Regex::new(r#""float":\d+\.\d+"#).unwrap();
+        let float_value: &str = &format!("\"float\":{:.14}", solution.float);
+        let updated = float_re.replace(&result, float_value).to_string();
+
+        return updated;
     }
 }
 
