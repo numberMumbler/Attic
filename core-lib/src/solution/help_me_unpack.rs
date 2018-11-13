@@ -1,13 +1,29 @@
 // https://hackattic.com/challenges/help_me_unpack
 
 extern crate base64;
+extern crate regex;
+extern crate serde_json;
 
+use solution::DefinesSolution;
 use toolbox::convert;
+use regex::Regex;
+
+pub const CHALLENGE_ID: &str = "help_me_unpack";
 
 pub struct HelpMeUnpack {}
 
 impl HelpMeUnpack {
-    pub fn solve(problem: ProblemPayload) -> SolutionPayload {
+    pub fn new() -> HelpMeUnpack {
+        HelpMeUnpack {}
+    }
+
+    pub fn get_challenge_id() -> String {
+        CHALLENGE_ID.to_string()
+    }
+}
+
+impl<'a> DefinesSolution<'a, ProblemPayload, SolutionPayload> for HelpMeUnpack {
+    fn solve(&self, problem: &ProblemPayload) -> SolutionPayload {
         let bytes = base64::decode(&problem.bytes).unwrap();
 
         // bytes at position 10, 11 are always zero
@@ -20,6 +36,17 @@ impl HelpMeUnpack {
             big_endian_double: convert::bytes_to_double_big_endian(array_ref!(bytes, 24, 8)),
         };
         return result;
+    }
+
+    fn convert_solution(&self, solution: &SolutionPayload) -> String {
+        let result = serde_json::to_string(&solution).unwrap();
+
+        // default float formatting does not include enough precision
+        let float_re: Regex = Regex::new(r#""float":\d+\.\d+"#).unwrap();
+        let float_value: &str = &format!("\"float\":{:.14}", solution.float);
+        let updated = float_re.replace(&result, float_value).to_string();
+
+        return updated;
     }
 }
 
@@ -42,21 +69,22 @@ pub struct SolutionPayload {
 mod tests {
     use super::*;
 
-    // https://stackoverflow.com/questions/34662713/how-can-i-create-parameterized-tests-in-rust
-
     fn payload_assert_eq(expected: SolutionPayload, result: SolutionPayload) {
         assert_eq!(expected.int, result.int, "int");
         assert_eq!(expected.uint, result.uint, "uint");
         assert_eq!(expected.short, result.short, "short");
         assert_eq!(expected.float, result.float, "float");
         assert_eq!(expected.double, result.double, "double");
-        assert_eq!(expected.big_endian_double, result.big_endian_double, "big_endian_double");
+        assert_eq!(
+            expected.big_endian_double, result.big_endian_double,
+            "big_endian_double"
+        );
     }
 
     #[test]
     fn process_payload_zero_string_returns_zeros() {
         let given = ProblemPayload {
-            bytes: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=".to_string()
+            bytes: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=".to_string(),
         };
         let expected = SolutionPayload {
             int: 0,
@@ -67,14 +95,15 @@ mod tests {
             big_endian_double: 0.0,
         };
 
-        let result = HelpMeUnpack::solve(given);
+        let solver = HelpMeUnpack::new();
+        let result = solver.solve(&given);
         payload_assert_eq(expected, result);
     }
 
     #[test]
     fn process_payload_returns_expected() {
         let given = ProblemPayload {
-            bytes: "FqyCgL5+3tiGogAAfuiXQ4U+XqGSkFJAQFKQkqFePoU=".to_string()
+            bytes: "FqyCgL5+3tiGogAAfuiXQ4U+XqGSkFJAQFKQkqFePoU=".to_string(),
         };
         let expected = SolutionPayload {
             int: -2138919914,
@@ -85,7 +114,8 @@ mod tests {
             big_endian_double: 74.2589496059755,
         };
 
-        let result = HelpMeUnpack::solve(given);
+        let solver = HelpMeUnpack::new();
+        let result = solver.solve(&given);
         payload_assert_eq(expected, result);
     }
 }
